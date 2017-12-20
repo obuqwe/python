@@ -1,6 +1,6 @@
 import requests
 from time import sleep
-from token import token_bot
+from bot_settings import token_bot
 
 token = token_bot
 api_url = "https://api.telegram.org/bot{}".format(token)
