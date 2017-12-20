@@ -13,6 +13,7 @@ def get_updates(limit = 10, offset = 0):
     result = response.json()
     #print(result)
     return result
+
 def send_message(chat_id, text):
     method_url = "{}/sendMessage".format(api_url)
     params = {"chat_id": chat_id, "text": text}
@@ -20,14 +21,26 @@ def send_message(chat_id, text):
     result = response.json()
     #print(result)
 
+def entry_message(message_text):
+    if message_text == "/start":
+        answer = "Привет, я бот! Помощь это /help"
+    elif message_text == "/help":
+        answer = "Попозже помогу"
+    else:
+        answer = "Давай еще раз"
+    return answer
+
 offset = 0
 while listening:
     updates = get_updates(offset = offset)
     print(updates)
     result = updates['result']
     if result:
+        message_text = result[0]['message']['text']
+        answer_text = entry_message(message_text)
+        print(message_text, answer_text)
         update_id = result[0]['update_id']
         offset = update_id + 1
         chat_id = result[0]['message']['chat']['id']
-        send_message(chat_id, 'Hello!')
+        send_message(chat_id, answer_text)
     sleep(1)
