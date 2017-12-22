@@ -21,11 +21,21 @@ def send_message(chat_id, text):
     result = response.json()
     #print(result)
 
+def rates_money():
+    rates_url = "https://api.fixer.io/latest?base=USD"
+    response = requests.get(rates_url)
+    result = response.json()
+    rates_answer = result['rates']['RUB']
+    print(result)
+    return rates_answer
+
 def entry_message(message_text):
     if message_text == "/start":
         answer = "Привет, я бот! Помощь это /help"
     elif message_text == "/help":
         answer = "Попозже помогу"
+    elif message_text == "USD":
+        answer = rates_money()
     else:
         answer = "Давай еще раз"
     return answer
